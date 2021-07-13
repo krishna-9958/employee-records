@@ -1,0 +1,9 @@
+#%RAML 1.0 ResourceType
+  get:
+    displayName: Fetching employee records
+    description: Getting all employees records using pagination
+    is:
+      - offset-limit
+      - basicAuth
+  is:
+    - response

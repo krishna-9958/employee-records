@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="read-implSub_Flow" doc:id="f36669c1-c88b-4829-891e-185a2b9ef39e" >
+		<logger level="INFO" doc:name="Logger" doc:id="2c4886d9-0db7-4932-b150-25cdf8541a78" message="-----------impFlowStarted-------------------"/>
+		<db:select doc:name="Select" doc:id="289f90ef-4340-4c96-9fff-a3c411bf79b7" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from persons LIMIT :limit OFFSET :offset]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	limit: attributes.queryParams.limit as Number,
+	offset: attributes.queryParams.offset as Number
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="8d08ff99-bcad-49da-af62-e3fe3e629e9b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End logger" doc:id="c4ac4091-ac43-41c2-be07-7f0641d0fe76" message="#[payload]"/>
+	</sub-flow>
+</mule>

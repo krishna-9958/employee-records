@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<munit:config name="mysql-db-pagination-sapi-test-suite.xml" />
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="904cf1ea-04e3-4c50-b453-91b04a64787a" >
+		<http:request-connection protocol="HTTPS" host="localhost" port="8082">
+			<tls:context >
+				<tls:key-store type="jks" path="keystore.jks" keyPassword="mulesoft" password="mulesoft" />
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="d78daeba-ab9d-483e-bcb6-c86773430f7c" >
+		<tls:key-store type="jks" path="keystore.jks" keyPassword="mulesoft" password="mulesoft" />
+	</tls:context>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest" doc:id="d607f8f5-7a9e-4ee3-bede-c80df755dc41" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0ee70cd1-2741-40ce-be05-0ebb172bc3bc" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Select" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://implementation/databasePayload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="8417ab96-cfb3-499a-b09d-05f40ae5d77a" config-ref="HTTP_Request_configuration" path="/api/employeeRecords">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : "Value",
+	"client_id" : "Value"
+}]]]></http:headers>
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"offset" : 10,
+	"limit" : 50
+}]]]></http:query-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify call" doc:id="78566491-3e32-4bfa-85f1-0b40de61a648" processor="logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="End logger" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

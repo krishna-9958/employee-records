@@ -1,0 +1,12 @@
+#%RAML 1.0 Trait
+responses:
+      200:
+        body:
+          application/json:
+            type: success-200-response []   
+            example: !include ../examples/success-200-Example.raml
+      400:
+        body:
+          application/json:
+            type: error-400-response []
+            example: !include ../examples/error-400-Example.raml
