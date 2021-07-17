@@ -11,7 +11,8 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-        <apikit:router config-ref="mysql-db-pagination-sapi-config"/>
+        <apikit:router config-ref="mysql-db-pagination-sapi-config" doc:id="8e5250b9-ed93-4cec-a230-15dedbbeb1cc"/>
+		<error-handler ref="global-apikit-error-handler" />
     </flow>
     <flow name="get:\employeeRecords:mysql-db-pagination-sapi-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">

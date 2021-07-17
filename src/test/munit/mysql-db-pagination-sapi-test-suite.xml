@@ -10,19 +10,19 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
 	<munit:config name="mysql-db-pagination-sapi-test-suite.xml" />
-	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="904cf1ea-04e3-4c50-b453-91b04a64787a" >
-		<http:request-connection protocol="HTTPS" host="localhost" port="8082">
-			<tls:context >
-				<tls:key-store type="jks" path="keystore.jks" keyPassword="mulesoft" password="mulesoft" />
-			</tls:context>
-		</http:request-connection>
-	</http:request-config>
-	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="d78daeba-ab9d-483e-bcb6-c86773430f7c" >
-		<tls:key-store type="jks" path="keystore.jks" keyPassword="mulesoft" password="mulesoft" />
+	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="fc2c7a28-d02c-4875-a564-fff74655e00e" >
+		<tls:trust-store insecure="true" />
 	</tls:context>
-	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest" doc:id="d607f8f5-7a9e-4ee3-bede-c80df755dc41" description="Test">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="61a35fa3-4f84-41fe-8827-02695b894d7e" >
+		<http:request-connection protocol="HTTPS" host="localhost" port="8082" tlsContext="TLS_Context" />
+	</http:request-config>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest" doc:id="cab78d64-06d8-441a-9ba3-c561c37f8fdc" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="get:\employeeRecords:mysql-db-pagination-sapi-config" />
+			<munit:enable-flow-source value="mysql-db-pagination-sapi-main" />
+		</munit:enable-flow-sources>
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock when" doc:id="0ee70cd1-2741-40ce-be05-0ebb172bc3bc" processor="db:select">
+			<munit-tools:mock-when doc:name="Mock when" doc:id="7dd4ce9a-8cf9-4de4-bb32-0f239a5a9215" processor="db:select">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Select" attributeName="doc:name" />
 				</munit-tools:with-attributes>
@@ -32,28 +32,90 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<http:request method="GET" doc:name="Request" doc:id="8417ab96-cfb3-499a-b09d-05f40ae5d77a" config-ref="HTTP_Request_configuration" path="/api/employeeRecords">
+			<http:request method="GET" doc:name="Request" doc:id="772a8346-8dd2-4fb6-9409-95f595a86c8d" config-ref="HTTP_Request_configuration" path="/api/employeeRecords?limit=50&amp;offset=10">
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
 	"client_secret" : "Value",
 	"client_id" : "Value"
 }]]]></http:headers>
-				<http:query-params ><![CDATA[#[output application/java
----
-{
-	"offset" : 10,
-	"limit" : 50
-}]]]></http:query-params>
 			</http:request>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:verify-call doc:name="Verify call" doc:id="78566491-3e32-4bfa-85f1-0b40de61a648" processor="logger">
+			<munit-tools:verify-call doc:name="Verify call" doc:id="e7328a31-934e-4ff7-9f08-bd30e33baa11" processor="logger">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="End logger" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
+	</munit:test>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest1" doc:id="bd5b35db-e106-4090-b324-ba7b539efb52" description="Test" expectedErrorType="HTTP:BAD_REQUEST">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="mysql-db-pagination-sapi-main" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1660aaea-1218-441e-b69e-cfeeed4f552b" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="mysql-db-pagination-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="995226ff-6e3e-4564-be73-a16dd75a50da" config-ref="HTTP_Request_configuration" path="/api/employeeRecords?limit=50&amp;offset=10">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : "Value",
+	"client_id" : "Value"
+}]]]></http:headers>
+			</http:request>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest2" doc:id="223a0cdd-ba36-45e2-ad5d-ffac3f93284e" description="Test" expectedErrorType="HTTP:NOT_FOUND">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="mysql-db-pagination-sapi-main" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="57d0ad2f-9c0f-4f74-afa4-cd27938fd53e" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="mysql-db-pagination-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="701c977b-9e8e-4d08-8202-4512a4cc37ac" config-ref="HTTP_Request_configuration" path="/api/employeeRecords?limit=50&amp;offset=10"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest3" doc:id="885fdd1a-663d-46ab-a503-5cb98253ab93" description="Test" expectedErrorType="HTTP:METHOD_NOT_ALLOWED">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="mysql-db-pagination-sapi-main" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="44f80117-f255-4fb5-bfab-3a9bd5fe5ead" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="mysql-db-pagination-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="6a17a133-b082-404b-b681-ef05fab365ae" config-ref="HTTP_Request_configuration" path="/api/employeeRecords?limit=50&amp;offset=10">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : "Value",
+	"client_id" : "Value"
+}]]]></http:headers>
+			</http:request>
+		</munit:execution>
 	</munit:test>
 
 
