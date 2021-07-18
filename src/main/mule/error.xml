@@ -147,30 +147,6 @@ output application/java
 			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="a2520844-e46f-43ae-aeef-9bbefe483a25" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
 			<flow-ref doc:name="Flow Reference" doc:id="46dc4fb8-1344-4393-9a7a-641888ea471b" name="errorSub_Flow"/>
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="617b52fa-6e71-4b69-adbd-cf724dd1171b" type="APIKIT:NOT_IMPLEMENTED">
-			<ee:transform doc:name="Initialize Error Variables"
-				doc:id="f338b89a-eff2-454f-b982-fd5d59ac576b">
-				<ee:message>
-				</ee:message>
-				<ee:variables>
-					<ee:set-variable variableName="varErrorMessage"><![CDATA[%dw 2.0
-output application/java
----
-'Please check the request methods supported by the server.']]></ee:set-variable>
-					<ee:set-variable variableName="varErrorCode"><![CDATA[%dw 2.0
-output application/java
----
-'ERR-VALIDATION-1006']]></ee:set-variable>
-					<ee:set-variable variableName="varErrorType"><![CDATA[%dw 2.0
-output application/java
----
-'Validation Error']]></ee:set-variable>
-					<ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
-				</ee:variables>
-			</ee:transform>
-			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="39f80266-169e-4575-9fab-1003f30c4099" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
-			<flow-ref doc:name="Flow Reference" doc:id="6f6a0453-9882-4d4b-8bce-cc163c7b4ae4" name="errorSub_Flow"/>
-		</on-error-propagate>
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d815a46d-6912-471d-bbc4-8998b3dba5df" type="APIKIT:ANY">
 			<ee:transform doc:name="Initialize Error Variables"
 				doc:id="0379d19d-a28d-4c48-84f6-bb83a5af90b4">

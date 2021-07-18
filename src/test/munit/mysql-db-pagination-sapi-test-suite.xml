@@ -117,6 +117,81 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 			</http:request>
 		</munit:execution>
 	</munit:test>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest4" doc:id="bc427076-4bd2-4533-ae43-14d4c989d265" description="Test" expectedErrorType="HTTP:NOT_ACCEPTABLE">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="mysql-db-pagination-sapi-main" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6e64b026-7aa3-4330-ade2-05c499464801" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="mysql-db-pagination-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="3fa954a6-ace9-4337-a5c0-dc4662dceacf" config-ref="HTTP_Request_configuration" path="/api/employeeRecords?limit=50&amp;offset=10">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : "Value",
+	"client_id" : "Value"
+}]]]></http:headers>
+			</http:request>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest5" doc:id="38bd9093-d811-44bb-b714-42edaa661ddd" description="Test" expectedErrorType="HTTP:UNSUPPORTED_MEDIA_TYPE">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="mysql-db-pagination-sapi-main" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ceff81bb-47d7-450c-b0f0-7c1a93efa52c" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="mysql-db-pagination-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="6a0281ca-588b-49df-b14b-91d0c451f3e4" config-ref="HTTP_Request_configuration" path="/api/employeeRecords?limit=50&amp;offset=10">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : "Value",
+	"client_id" : "Value"
+}]]]></http:headers>
+			</http:request>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="mysql-db-pagination-sapi-test-suite-mysql-db-pagination-sapi-mainTest6" doc:id="76e9419b-e3ee-4e6f-83e4-c596381ad379" description="Test" expectedErrorType="ANY">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="mysql-db-pagination-sapi-main" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1e9360ff-4bd4-48c0-901a-6d692b3b46a6" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="mysql-db-pagination-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:ANY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="6011aa2b-56b6-4928-95f2-fdf751d842bd" config-ref="HTTP_Request_configuration" path="/api/employeeRecords?limit=50&amp;offset=10">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : "Value",
+	"client_id" : "Value"
+}]]]></http:headers>
+			</http:request>
+		</munit:execution>
+	</munit:test>
 
 
 </mule>
