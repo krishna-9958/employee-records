@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="9838b4d0-9d62-494f-a687-cdfc00622c36" >
 		<db:my-sql-connection host="${secure::db.host}" port="${secure::db.port}" user="${secure::db.user}" password="${secure::db.password}" database="${secure::db.db}" />
 	</db:config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="147aa281-f4ce-4a84-95df-e622e3ff35c5" file="properties/dev.yaml" key="1" >
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="147aa281-f4ce-4a84-95df-e622e3ff35c5" file="properties/${env}.yaml" key="1" >
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
 </mule>
