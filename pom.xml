@@ -69,6 +69,7 @@
 					</execution>
 				</executions>
 				<configuration>
+				<skipMuintTests>true</skipMuintTests>
 					<coverage>
 						<runCoverage>true</runCoverage>
 						<formats>
