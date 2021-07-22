@@ -41,7 +41,7 @@
 						<workerType>MICRO</workerType>
 						<applicationName>employeerecords</applicationName>
 						<password>Karthik@1</password>
-						<muleVersion>4.3.0-20210322</muleVersion>
+						<muleVersion>4.3.0</muleVersion>
 						<properties>
 							<key>value</key>
 						</properties>
