@@ -69,7 +69,7 @@
 					</execution>
 				</executions>
 				<configuration>
-				<skipMunitTests>true</skipMunitTests>
+				<skipMunitTests>false</skipMunitTests>
 					<coverage>
 						<runCoverage>true</runCoverage>
 						<formats>
