@@ -18,11 +18,11 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 		</http:listener-connection>
 	</http:listener-config>
 	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="2a26d7c2-b938-4c67-86a2-ccf4f6af71b1" name="mysql-db-pagination-sapi-config" api="mysql-db-pagination-sapi.raml"/>
-	<configuration doc:name="Configuration" doc:id="f5038214-0eaa-44b1-b61e-df0a96bd5e97" defaultErrorHandler-ref="global-apikit-error-handler" />
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="9838b4d0-9d62-494f-a687-cdfc00622c36" >
 		<db:my-sql-connection host="${secure::db.host}" port="${secure::db.port}" user="${secure::db.user}" password="${secure::db.password}" database="${secure::db.db}" />
 	</db:config>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="147aa281-f4ce-4a84-95df-e622e3ff35c5" file="properties/dev.yaml" key="1" >
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
+	<configuration doc:name="Configuration" doc:id="68837a4b-6531-4c63-9886-b018e217b2ad" defaultErrorHandler-ref="global-apikit-error-handler" />
 </mule>

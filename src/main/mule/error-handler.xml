@@ -4,8 +4,8 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<sub-flow name="errorSub_Flow" doc:id="40bbf8db-2554-4d75-95bd-5c7fac11c577" >
-		<ee:transform doc:name="Transform Error Response Message" doc:id="e382028f-6fd3-40ce-8192-63b0e7b188f0" >
+	<sub-flow name="errorSub_Flow" doc:id="4667cc98-9318-4d71-b9b3-5588756641f9" >
+		<ee:transform doc:name="Transform Error Response Messages" doc:id="845a5610-fd33-430d-b35f-ae9acbc72f5a" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -20,9 +20,9 @@ output application/json
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
-	<error-handler name="global-apikit-error-handler" doc:id="3b9a9180-c963-4b89-84c9-5fa257e9ec6a" >
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="934419e4-8600-4577-9066-f5e93ce689b6" type="APIKIT:BAD_REQUEST">
-			<ee:transform doc:name="Initialize Error Variables" doc:id="0930d1f5-98e0-4110-83a6-be8f2d5b448a" >
+	<error-handler name="global-apikit-error-handler" doc:id="deb4356a-c999-4071-b6f7-f63c0a82ea7e" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f063dd80-7ee9-474c-85ec-352c34e3acc1" type="APIKIT:BAD_REQUEST">
+			<ee:transform doc:name="Initialize Error Variables" doc:id="2382165f-5df5-47ce-8f30-acfdc34bb6c6" >
 				<ee:message >
 				</ee:message>
 				<ee:variables >
@@ -45,11 +45,11 @@ output application/java
 'Please check the input request body and url parameters']]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="9bf0a975-2d56-42a1-8759-dff47fbbf2cb" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
-			<flow-ref doc:name="Flow Reference" doc:id="08d668de-627a-4d39-a67d-dae646943a07" name="errorSub_Flow"/>
+			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="4b382712-396f-4758-8e5b-3cd79e7dd518" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
+			<flow-ref doc:name="Flow Reference" doc:id="ac6b7e8f-f7bf-4039-8b45-c57c4df30c92" name="errorSub_Flow"/>
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b95446bb-ff81-4444-9eb2-c43c7850cbba" type="APIKIT:NOT_FOUND">
-			<ee:transform doc:name="Transform Message" doc:id="d7dc9845-fd2b-4098-9601-a5171f26e8a3" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c0a087f8-af8c-450d-98de-b999d4cb3675" type="APIKIT:NOT_FOUND">
+			<ee:transform doc:name="Transform Message" doc:id="f0d5ed15-c2e1-4b28-aa4f-245048e73a9b" >
 				<ee:message >
 				</ee:message>
 				<ee:variables >
@@ -72,12 +72,12 @@ output application/java
 now()]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="6d230348-9567-4fd7-b991-820ba166c1c8" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
-			<flow-ref doc:name="Flow Reference" doc:id="7da11c9f-8a3f-4e9b-8f74-a6fedf472b24" name="errorSub_Flow"/>
+			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="0b176cb9-fb8b-45bb-8189-d99702cdf71b" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
+			<flow-ref doc:name="Flow Reference" doc:id="97296e4d-a271-4717-b917-0fa662d0854e" name="errorSub_Flow"/>
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3700fe9b-2150-4b99-a91f-1d492e65f87d" type="APIKIT:METHOD_NOT_ALLOWED">
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="823c9109-be6f-41ac-98f9-a4f025c38dff" type="APIKIT:METHOD_NOT_ALLOWED">
 			<ee:transform doc:name="Initialize Error Variables"
-				doc:id="8bf0f890-b89c-4074-81f0-b3095ea77dfe">
+				doc:id="b78bb515-402c-4c49-adb7-ec999f9a2e5c">
 				<ee:message>
 				</ee:message>
 				<ee:variables>
@@ -96,12 +96,12 @@ output application/java
 					<ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="00ed751f-f139-4702-af37-aa06476fc72c" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
-			<flow-ref doc:name="Flow Reference" doc:id="2d3b9dd1-5454-4dc2-a429-d0ce4b257be1" name="errorSub_Flow"/>
+			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="2a52186c-a99b-49e1-8e28-1e170de68b21" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
+			<flow-ref doc:name="Flow Reference" doc:id="756f1147-e8f4-4a0c-a94e-904a9bb4a262" name="errorSub_Flow"/>
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d2cc63b3-c4f5-44cc-bda3-814d413a425e" type="APIKIT:NOT_ACCEPTABLE">
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b1d120be-efb4-472b-874c-bc09cc84a647" type="APIKIT:NOT_ACCEPTABLE">
 			<ee:transform doc:name="Initialize Error Variables"
-				doc:id="f2edd961-1dbc-4cc1-af01-af3bfd58c6eb">
+				doc:id="f6847dfc-170b-416c-8b18-33509c607c80">
 				<ee:message>
 				</ee:message>
 				<ee:variables>
@@ -120,12 +120,12 @@ output application/java
 					<ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="5c18b51d-0a9b-4068-98a9-8d3b910454b8" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
-			<flow-ref doc:name="Flow Reference" doc:id="a8abfaf2-886a-46af-ac2e-90930a6824da" name="errorSub_Flow"/>
+			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="f2521837-2f58-4047-9deb-c120be04bbc2" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
+			<flow-ref doc:name="Flow Reference" doc:id="d66d59a0-bf5d-4e76-a387-33d27fb276e4" name="errorSub_Flow"/>
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="af270bb7-e3f6-42f0-9326-610ae54efd79" type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="547d7ab1-fa33-4043-9c73-251cbbd4bbf9" type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
 			<ee:transform doc:name="Initialize Error Variables"
-				doc:id="bc4310f1-5d84-48dc-8807-cc9d308ec68d">
+				doc:id="b0d0b851-74b7-4965-ab6c-d217bc9ba6d3">
 				<ee:message>
 				</ee:message>
 				<ee:variables>
@@ -144,12 +144,12 @@ output application/java
 					<ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="a2520844-e46f-43ae-aeef-9bbefe483a25" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
-			<flow-ref doc:name="Flow Reference" doc:id="46dc4fb8-1344-4393-9a7a-641888ea471b" name="errorSub_Flow"/>
+			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="d1b544f5-6ae5-4a10-83b2-a1f974771c82" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
+			<flow-ref doc:name="Flow Reference" doc:id="d27594c9-1220-4ddd-a7f4-b47b7dce477a" name="errorSub_Flow"/>
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d815a46d-6912-471d-bbc4-8998b3dba5df" type="APIKIT:ANY">
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="73221a49-acc9-4b80-868d-fdad73a3d4a8" type="APIKIT:ANY">
 			<ee:transform doc:name="Initialize Error Variables"
-				doc:id="0379d19d-a28d-4c48-84f6-bb83a5af90b4">
+				doc:id="7d3fa97a-b5d3-4150-953a-9be268e2d5b3">
 				<ee:message>
 				</ee:message>
 				<ee:variables>
@@ -168,8 +168,8 @@ output application/java
 					<ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="876899ef-4472-47f0-b677-bf732a89cc88" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
-			<flow-ref doc:name="Flow Reference" doc:id="d1733dca-70b3-4d0b-b792-6e713f2e589c" name="errorSub_Flow"/>
+			<logger level="INFO" doc:name="Log Initialized Error Attributes" doc:id="99cde3a7-2608-4365-9c05-f774ad1c5fc4" message="================ errorType: #[vars.varErrorType] , errorMessage:  #[vars.varErrorMessage] , errorCode: #[vars.varErrorCode] ==================="/>
+			<flow-ref doc:name="Flow Reference" doc:id="e55eafcf-60ec-4f03-8113-878fe24763b2" name="errorSub_Flow"/>
 		</on-error-propagate>
 	</error-handler>
 </mule>
