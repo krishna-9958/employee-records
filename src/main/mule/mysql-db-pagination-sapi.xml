@@ -31,6 +31,6 @@ output application/json
             </ee:message>
         </ee:transform>
 		<flow-ref doc:name="Flow Reference" doc:id="a026b6ed-ff1e-412a-8a40-befad348e21e" name="read-implSub_Flow"/>
-		<logger level="INFO" doc:name="Logger" doc:id="c8fdc34c-577c-4c5c-af92-f9972b0c238a" />
+		<logger level="INFO" doc:name="Logger" doc:id="72842cb8-2a25-4562-936e-c127565770a9" />
     </flow>
 </mule>
